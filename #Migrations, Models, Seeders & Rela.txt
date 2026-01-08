@@ -1,0 +1,148 @@
+#Migrations, Models, Seeders & Relationships research 
+
+- hasOne
+- hasMany
+- belongsTo
+- belongsToMany
+
+Explain:
+
+- Which side owns the foreign key? &  Where each method is written ?
+
+#in onetoone relation ship anyone of them can own the foreign key and we process it like
+user.php have function profile() hasone(profile::class) 
+and profile.php have function user() belongsto(user::class) and here is the foreign key (where you put the belongto) 
+
+# in one to many relation ship the foreign key must be in the many side like one user have many profiles , here the user.php have function profile() hasmany(profile::class) and 
+profile.php have function user() belongto(profile::class) where here is the foreign key
+
+
+-what is seeder?
+a php class in Laravel used to insert data into the database automatically.
+
+
+-Why seeders are important in development?
+
+seeders allow you to insert data into the database using code instead of writing SQL queries.
+They automatically fill the database with realistic or test data, saving time and making it easier to test features.
+
+-How seeders help simulate real data?
+
+#especially when used with factories, seeders can generate random data based on specific conditions specified in the seeder and insert it automatically into the database.
+This allows developers to test the application with realistic data without manually entering everything.
+
+-Difference between seeding and manual database inserts?
+
+#Seeding inserts data into the database automatically using code, without writing SQL queries.
+#Manual inserts require writing SQL queries or entering data by hand
+
+
+
+#####Part 2 #####
+(users,subjects,booking,reviews)
+#Why you chose these tables?
+because this tables represents the main idea of my project
+
+
+-How they are connected?
+ user->booking one-to-many relationship
+users-> reviews one-to-many relationship
+subjects-> booking one-to-many 
+
+#####Part 4 #####
+
+
+-Why this relationship type was chosen?
+#(user->booking)one user can have many bookings, but each booking belongs to only one user.
+#(users->review) one user can write many reviews, but each review belongs to only one user.
+#(subject->booking)one subject can have many bookings, but each booking is for only one subject.
+
+- Which table contains the foreign key?
+#(user->booking) here foreign key in booking table (student_id) & (teacher_id)
+#(users->review) here foreign key in reviews table (user_id)
+#(subject->booking) here foreign key in booking table as (subject_id)
+
+
+
+
+
+- Why the seeding order matters?
+#When you seed your database in Laravel, some tables depend on others because of foreign key relationships.
+If a table depends on another table, the table it depends on must be seeded first.
+Otherwise, you’ll get foreign key errors because the related data doesn’t exist yet.
+
+- How relationships affect seeded data
+#Database relationships (One-to-One, One-to-Many, Many-to-Many) determine what data must exist before inserting new data.
+
+
+
+Provide a short document that includes:
+
+Tables overview:-
+
+#users(id, name, email, password, timestamps)
+#subjects(id, name, description, user_id (FK), timestamps)
+#booking(id, booking_date, location, student_id (FK), teacher_id (FK), timestamps)
+#reviews(id, comment, rating, booking_id (FK), student_id (FK), teacher_id (FK), timestamps)
+
+
+Relationships diagram (simple sketch or description)
+Users
+ hasMany -> Subjects
+ hasMany -> Bookings (as student)
+ hasMany -> Bookings (as teacher)
+ hasMany -> Reviews (as student & teacher via Bookings)
+
+Subjects
+ belongsTo -> Users (teacher/creator)
+
+Bookings
+ belongsTo -> Users (student)
+ belongsTo -> Users (teacher)
+ hasOne → Reviews
+
+Reviews
+ belongsTo -> Bookings
+ belongsTo -> Users (student)
+ belongsTo -> Users (teacher)
+
+
+Explanation of:
+Migration →Table → Model → Seeder →Database
+
+-Migration:PHP class defining the table structure
+-Table:Actual table created in the database by running migrations.
+-Model:PHP class to interact with the table (CRUD operations)
+-seeder:Inserts sample or initial data into the table for testing
+-database:Final populated database ready for the application 
+
+Why this structure is suitable for your project idea
+
+This structure is flexible, scalable, and maintains clean relationships, perfect for testing and expanding features.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
